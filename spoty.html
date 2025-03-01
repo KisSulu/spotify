@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify API Redirect URL Generátor</title>
+</head>
+<body>
+    <h1>Spotify API Redirect URL Generátor</h1>
+    <form id="redirectForm">
+        <label for="clientId">Client ID:</label><br>
+        <input type="text" id="clientId" name="clientId" required><br><br>
+
+        <label for="redirectUri">Redirect URI:</label><br>
+        <input type="text" id="redirectUri" name="redirectUri" required><br><br>
+
+        <label for="scopes">Scopes (szóközökkel elválasztva):</label><br>
+        <input type="text" id="scopes" name="scopes"><br><br>
+
+        <label for="state">State (opcionális):</label><br>
+        <input type="text" id="state" name="state"><br><br>
+
+        <button type="button" onclick="generateRedirectUrl()">Generálás</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        function generateRedirectUrl() {
+            const clientId = document.getElementById('clientId').value;
+            const redirectUri = encodeURIComponent(document.getElementById('redirectUri').value);
+            const scopes = document.getElementById('scopes').value.split(' ').join('%20');
+            const state = document.getElementById('state').value;
+
+            let url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}`;
+
+            if (scopes) {
+                url += `&scope=${scopes}`;
+            }
+
+            if (state) {
+                url += `&state=${state}`;
+            }
+
+            document.getElementById('result').textContent = `Átirányítási URL: ${url}`;
+        }
+    </script>
+</body>
+</html>
